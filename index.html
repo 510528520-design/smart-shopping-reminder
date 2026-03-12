@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理智消费小助手 🛑</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2d3748;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title.add::before {
+            content: "➕";
+        }
+
+        .card-title.compare::before {
+            content: "💸";
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a5568;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .image-upload {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .image-upload:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .upload-text {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .price-input {
+            position: relative;
+        }
+
+        .price-input::before {
+            content: "¥";
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .price-input input {
+            padding-left: 36px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #e53e3e;
+        }
+
+        .add-item-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .add-item-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(72, 187, 120, 0.4);
+        }
+
+        /* 对比区域 */
+        .compare-section {
+            text-align: center;
+        }
+
+        .new-price-display {
+            font-size: 64px;
+            font-weight: 700;
+            color: #e53e3e;
+            margin: 24px 0;
+            line-height: 1;
+        }
+
+        .new-price-display::before {
+            content: "¥";
+            font-size: 32px;
+            vertical-align: super;
+            opacity: 0.7;
+        }
+
+        .comparison-title {
+            font-size: 16px;
+            color: #718096;
+            margin-bottom: 24px;
+        }
+
+        .bubbles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .bubble {
+            background: linear-gradient(135deg, #fef2f2 0%, #fed7d7 100%);
+            border: 2px solid #fc8181;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #c53030;
+            box-shadow: 0 4px 6px rgba(252, 129, 129, 0.3);
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bubble img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .bubble:nth-child(2n) {
+            animation-delay: 0.5s;
+            background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
+            border-color: #ed8936;
+            color: #c05621;
+            box-shadow: 0 4px 6px rgba(237, 137, 54, 0.3);
+        }
+
+        .bubble:nth-child(3n) {
+            animation-delay: 1s;
+            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+            border-color: #3182ce;
+            color: #2c5282;
+            box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .empty-bubble {
+            color: #a0aec0;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        /* 历史列表 */
+        .history-section {
+            grid-column: 1 / -1;
+        }
+
+        .history-section .card-title::before {
+            content: "📦";
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            background: #edf2f7;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .item-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #e53e3e;
+            margin-bottom: 12px;
+        }
+
+        .item-price::before {
+            content: "¥";
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .item-reason {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .delete-item-btn {
+            width: 100%;
+            padding: 8px;
+            background: #fed7d7;
+            color: #c53030;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-item-btn:hover {
+            background: #fc8181;
+            color: white;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 60px 0;
+            color: #a0aec0;
+            grid-column: 1 / -1;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 960px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .new-price-display {
+                font-size: 48px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛑 理智消费小助手</h1>
+            <p class="subtitle">买之前想一想，这笔钱能买多少你曾经想买的东西？</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- 左侧：添加商品 -->
+            <div class="card">
+                <h2 class="card-title add">添加想买的东西</h2>
+                
+                <div class="form-group">
+                    <label for="itemImage">商品图片</label>
+                    <div class="image-upload" id="imageUpload">
+                        <input type="file" id="itemImage" accept="image/*">
+                        <div class="upload-text">📸 点击上传图片（可选）</div>
+                        <img id="previewImage" class="preview-image" alt="预览">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemName">商品名称</label>
+                    <input type="text" id="itemName" placeholder="比如：最新款 iPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemReason">为什么想买？</label>
+                    <textarea id="itemReason" placeholder="比如：旧手机卡了，想换个拍照好的"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="itemPrice">价格（元）</label>
+                    <div class="price-input">
+                        <input type="number" id="itemPrice" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                </div>
+
+                <button class="add-item-btn" id="addItemBtn">✅ 加入我的愿望清单</button>
+            </div>
+
+            <!-- 右侧：对比提醒 -->
+            <div class="card">
+                <h2 class="card-title compare">消费对比提醒</h2>
+                <div class="compare-section">
+                    <div class="comparison-title">输入你现在想买的东西的价格</div>
+                    <div class="price-input">
+                        <input type="number" id="newItemPrice" placeholder="0.00" min="0" step="0.01">
+                    </div>
+                    <div class="new-price-display" id="newPriceDisplay">0</div>
+                    
+                    <div class="comparison-title">这笔钱你可以买：</div>
+                    <div class="bubbles-container" id="bubblesContainer">
+                        <div class="empty-bubble">先添加一些你曾经想买的东西吧~</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部：历史商品列表 -->
+        <div class="card history-section">
+            <h2 class="card-title">我的愿望清单</h2>
+            <div class="items-grid" id="itemsGrid">
+                <div class="empty-history">
+                    <h3>还没有添加任何商品哦</h3>
+                    <p>添加你想买的东西，下次冲动消费时看看能换多少个它们~</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 本地存储
+        let items = JSON.parse(localStorage.getItem('shoppingItems')) || [];
+        
+        const itemImageEl = document.getElementById('itemImage');
+        const previewImageEl = document.getElementById('previewImage');
+        const imageUploadEl = document.getElementById('imageUpload');
+        const itemNameEl = document.getElementById('itemName');
+        const itemReasonEl = document.getElementById('itemReason');
+        const itemPriceEl = document.getElementById('itemPrice');
+        const addItemBtnEl = document.getElementById('addItemBtn');
+        const newItemPriceEl = document.getElementById('newItemPrice');
+        const newPriceDisplayEl = document.getElementById('newPriceDisplay');
+        const bubblesContainerEl = document.getElementById('bubblesContainer');
+        const itemsGridEl = document.getElementById('itemsGrid');
+
+        // 图片上传预览
+        imageUploadEl.addEventListener('click', () => itemImageEl.click());
+        itemImageEl.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    previewImageEl.src = event.target.result;
+                    previewImageEl.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 添加商品
+        function addItem() {
+            const name = itemNameEl.value.trim();
+            const reason = itemReasonEl.value.trim();
+            const price = parseFloat(itemPriceEl.value.trim());
+            const image = previewImageEl.src || '';
+
+            if (!name || isNaN(price) || price <= 0) {
+                alert('请填写正确的商品名称和价格');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                name,
+                reason,
+                price,
+                image,
+                createdAt: new Date().toISOString()
+            };
+
+            items.unshift(newItem);
+            localStorage.setItem('shoppingItems', JSON.stringify(items));
+            
+            // 清空表单
+            itemNameEl.value = '';
+            itemReasonEl.value = '';
+            itemPriceEl.value = '';
+            previewImageEl.src = '';
+            previewImageEl.style.display = 'none';
+
+            renderItems();
+            updateComparison();
+        }
+
+        // 删除商品
+        function deleteItem(id) {
+            if (confirm('确定要删除这个商品吗？')) {
+                items = items.filter(item => item.id !== id);
+                localStorage.setItem('shoppingItems', JSON.stringify(items));
+                renderItems();
+                updateComparison();
+            }
+        }
+
+        // 渲染历史商品列表
+        function renderItems() {
+            if (items.length === 0) {
+                itemsGridEl.innerHTML = `
+                    <div class="empty-history">
+                        <h3>还没有添加任何商品哦</h3>
+                        <p>添加你想买的东西，下次冲动消费时看看能换多少个它们~</p>
+                    </div>
+                `;
+                return;
+            }
+
+            itemsGridEl.innerHTML = items.map(item => `
+                <div class="item-card">
+                    ${item.image ? `<img src="${item.image}" alt="${item.name}" class="item-image">` : `<div class="item-image"></div>`}
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">${item.price.toFixed(2)}</div>
+                    ${item.reason ? `<div class="item-reason">💡 ${item.reason}</div>` : ''}
+                    <button class="delete-item-btn" onclick="deleteItem(${item.id})">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // 更新对比气泡
+        function updateComparison() {
+            const newPrice = parseFloat(newItemPriceEl.value) || 0;
+            newPriceDisplayEl.textContent = newPrice.toFixed(2);
+
+            if (newPrice <= 0 || items.length === 0) {
+                bubblesContainerEl.innerHTML = `<div class="empty-bubble">${items.length === 0 ? '先添加一些你曾经想买的东西吧~' : '输入价格看看能买多少个之前想买的东西~'}</div>`;
+                return;
+            }
+
+            let bubblesHTML = '';
+            items.forEach(item => {
+                if (item.price <= 0) return;
+                const count = Math.floor(newPrice / item.price);
+                if (count >= 1) {
+                    bubblesHTML += `
+                        <div class="bubble">
+                            ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ''}
+                            <span>${count} 个 ${item.name}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!bubblesHTML) {
+                bubblesHTML = `<div class="empty-bubble">这个价格不够买任何一个你之前想买的东西哦~</div>`;
+            }
+
+            bubblesContainerEl.innerHTML = bubblesHTML;
+        }
+
+        // 事件监听
+        addItemBtnEl.addEventListener('click', addItem);
+        newItemPriceEl.addEventListener('input', updateComparison);
+
+        // 回车添加
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && (e.target.id === 'itemName' || e.target.id === 'itemPrice' || e.target.id === 'itemReason')) {
+                addItem();
+            }
+        });
+
+        // 初始化渲染
+        renderItems();
+        updateComparison();
+    </script>
+</body>
+</html>
