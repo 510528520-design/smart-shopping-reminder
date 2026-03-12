@@ -527,6 +527,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes purchasedAnimation {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(0.8); opacity: 0; }
+        }
+
+        .item-card.purchasing {
+            animation: purchasedAnimation 0.6s ease forwards;
+        }
+
         .combination-header {
             font-size: 14px;
             font-weight: 600;
@@ -894,24 +904,7 @@
             </div>
         </header>
 
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-label">已实现</div>
-                <div class="stat-value success" id="purchasedCount">0/0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">已花费</div>
-                <div class="stat-value warning" id="totalSpent">¥0.00</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">已省钱</div>
-                <div class="stat-value success" id="savedMoney">¥0.00</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">月预算剩余</div>
-                <div class="stat-value danger" id="budgetRemaining">¥0.00</div>
-            </div>
-        </div>
+
 
         <div class="main-grid">
             <!-- 左侧：添加商品 -->
@@ -1030,9 +1023,9 @@
         <div class="card history-section">
             <h2 class="card-title">📦 我的愿望单</h2>
             <div class="filter-bar" id="filterBar">
-                <button class="filter-btn active" data-filter="all">全部</button>
-                <button class="filter-btn" data-filter="pending">待购买</button>
-                <button class="filter-btn" data-filter="purchased">已购买</button>
+                <button class="filter-btn" data-filter="all">全部</button>
+                <button class="filter-btn active" data-filter="pending">待购买</button>
+                <button class="filter-btn" data-filter="purchased">已实现</button>
                 <button class="filter-btn" data-filter="high">高优先级</button>
                 <button class="filter-btn" data-filter="digital">数码</button>
                 <button class="filter-btn" data-filter="clothing">服饰</button>
@@ -1077,7 +1070,7 @@
         let selectedEmoji = '📱';
         let selectedCategory = 'digital';
         let selectedPriority = 'high';
-        let currentFilter = 'all';
+        let currentFilter = 'pending';
         let pendingItem = null;
 
         const emojiOptions = document.querySelectorAll('.emoji-option');
@@ -1221,25 +1214,52 @@
             }
         });
 
-        // 更新统计数据
+        // 更新总金额
         function updateStats() {
             const total = items.reduce((sum, item) => sum + parseFloat(item.price), 0);
-            const purchasedItems = items.filter(item => item.purchased);
-            const purchasedCount = purchasedItems.length;
-            const totalSpent = purchasedItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
-            const monthSpent = purchasedItems.filter(item => {
-                const itemDate = new Date(item.purchasedAt || item.createdAt);
-                const now = new Date();
-                return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
-            }).reduce((sum, item) => sum + parseFloat(item.price), 0);
-            const budgetRemaining = settings.monthlyBudget - monthSpent;
-
             totalAmountEl.textContent = total.toFixed(2);
-            purchasedCountEl.textContent = `${purchasedCount}/${items.length}`;
-            totalSpentEl.textContent = `¥${totalSpent.toFixed(2)}`;
-            savedMoneyEl.textContent = `¥${settings.savedMoney.toFixed(2)}`;
-            budgetRemainingEl.textContent = `¥${Math.max(0, budgetRemaining).toFixed(2)}`;
         }
+
+        // 购买成功提示
+        function showPurchaseSuccess() {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--success);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 16px;
+                font-weight: 600;
+                z-index: 9999;
+                animation: slideDown 0.3s ease forwards;
+                box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
+            `;
+            toast.textContent = '🎉 愿望实现啦！';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.3s ease forwards';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+
+        // 加两个提示动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+            @keyframes slideUp {
+                from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
 
         // 生成随机组合
         function generateCombinations(targetPrice) {
@@ -1439,18 +1459,31 @@
             const item = items.find(item => item.id === id);
             if (!item) return;
             
-            if (item.purchased) {
+            // 如果是标记为已购买，加消失动画
+            if (!item.purchased) {
+                const cardEl = document.querySelector(`.item-card[data-id="${id}"]`);
+                if (cardEl) {
+                    cardEl.classList.add('purchasing');
+                    // 等待动画完成
+                    setTimeout(() => {
+                        item.purchased = true;
+                        item.purchasedAt = new Date().toISOString();
+                        localStorage.setItem('shoppingItems', JSON.stringify(items));
+                        renderItems();
+                        updateStats();
+                        renderCombinations();
+                        showPurchaseSuccess();
+                    }, 600);
+                }
+            } else {
+                // 取消已购买，直接更新
                 item.purchased = false;
                 delete item.purchasedAt;
-            } else {
-                item.purchased = true;
-                item.purchasedAt = new Date().toISOString();
+                localStorage.setItem('shoppingItems', JSON.stringify(items));
+                renderItems();
+                updateStats();
+                renderCombinations();
             }
-            
-            localStorage.setItem('shoppingItems', JSON.stringify(items));
-            renderItems();
-            updateStats();
-            renderCombinations();
         }
 
         // 删除商品
@@ -1507,7 +1540,7 @@
             };
 
             itemsGridEl.innerHTML = sortedItems.map(item => `
-                <div class="item-card ${item.purchased ? 'purchased' : ''}">
+                <div class="item-card ${item.purchased ? 'purchased' : ''}" data-id="${item.id}">
                     <div class="item-emoji">${item.emoji}</div>
                     <div class="category-badge">${categoryNames[item.category] || '其他'}</div>
                     <div class="priority-badge ${item.priority}">
