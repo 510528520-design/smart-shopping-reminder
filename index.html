@@ -11,13 +11,28 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f5f5f7;
+            --card: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --success: #34c759;
+            --warning: #ff9500;
+            --danger: #ff3b30;
+            --border: #d2d2d7;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
-            color: #2d3748;
-            line-height: 1.6;
+            color: var(--text-primary);
+            line-height: 1.47;
             padding: 20px;
+            font-weight: 400;
         }
 
         .container {
@@ -26,121 +41,191 @@
         }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        h1 {
-            font-size: 40px;
+        .header-left h1 {
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 12px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
 
-        .subtitle {
+        .header-left .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .total-amount {
+            text-align: right;
+        }
+
+        .total-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .total-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .total-value::before {
+            content: "¥";
             font-size: 18px;
-            opacity: 0.9;
+            opacity: 0.7;
+            margin-right: 2px;
         }
 
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 32px;
+            gap: 24px;
             margin-bottom: 32px;
         }
 
         .card {
-            background: white;
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .card-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .card-title.add::before {
-            content: "➕";
-        }
-
-        .card-title.compare::before {
-            content: "💸";
+            gap: 8px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #4a5568;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group input[type="text"],
         .form-group input[type="number"],
-        .form-group textarea {
+        .form-group select {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e2e8f0;
+            border: 1px solid var(--border);
             border-radius: 12px;
             font-size: 16px;
-            transition: all 0.3s ease;
+            background: var(--bg);
+            transition: all 0.2s ease;
             font-family: inherit;
+            appearance: none;
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .image-upload {
-            border: 2px dashed #cbd5e0;
+        /* Emoji选择器 */
+        .emoji-selector {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            padding: 12px;
+            background: var(--bg);
             border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f7fafc;
+            border: 1px solid var(--border);
         }
 
-        .image-upload:hover {
-            border-color: #667eea;
-            background: #edf2f7;
-        }
-
-        .image-upload input {
-            display: none;
-        }
-
-        .upload-text {
-            color: #718096;
-            font-size: 14px;
-        }
-
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
+        .emoji-option {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: white;
             border-radius: 8px;
-            margin-top: 12px;
-            display: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-option:hover,
+        .emoji-option.selected {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        /* 优先级选择 */
+        .priority-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .priority-option {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .priority-option.high {
+            color: var(--danger);
+        }
+
+        .priority-option.high.selected {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .priority-option.medium {
+            color: var(--warning);
+        }
+
+        .priority-option.medium.selected {
+            background: var(--warning);
+            color: white;
+            border-color: var(--warning);
+        }
+
+        .priority-option.low {
+            color: var(--success);
+        }
+
+        .priority-option.low.selected {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
         }
 
         .price-input {
@@ -153,35 +238,39 @@
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
-            color: #667eea;
+            color: var(--accent);
         }
 
         .price-input input {
             padding-left: 36px;
-            font-size: 20px;
-            font-weight: 700;
-            color: #e53e3e;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .add-item-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            padding: 14px;
+            background: var(--accent);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             margin-top: 8px;
         }
 
         .add-item-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(72, 187, 120, 0.4);
+            background: #0077ed;
+            transform: translateY(-1px);
+        }
+
+        .add-item-btn:active {
+            transform: translateY(0);
         }
 
         /* 对比区域 */
@@ -192,81 +281,102 @@
         .new-price-display {
             font-size: 64px;
             font-weight: 700;
-            color: #e53e3e;
-            margin: 24px 0;
+            color: var(--danger);
+            margin: 20px 0;
             line-height: 1;
+            letter-spacing: -2px;
         }
 
         .new-price-display::before {
             content: "¥";
             font-size: 32px;
             vertical-align: super;
-            opacity: 0.7;
+            opacity: 0.6;
+            margin-right: 4px;
         }
 
         .comparison-title {
-            font-size: 16px;
-            color: #718096;
-            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
         }
 
-        .bubbles-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
+        .roll-btn {
+            padding: 10px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .roll-btn:hover {
+            background: #0077ed;
+        }
+
+        .combinations-container {
             max-height: 400px;
             overflow-y: auto;
-            padding: 16px;
+            padding: 8px;
         }
 
-        .bubble {
-            background: linear-gradient(135deg, #fef2f2 0%, #fed7d7 100%);
-            border: 2px solid #fc8181;
-            border-radius: 50px;
-            padding: 12px 20px;
-            font-size: 16px;
+        .combination-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .combination-header {
+            font-size: 14px;
             font-weight: 600;
-            color: #c53030;
-            box-shadow: 0 4px 6px rgba(252, 129, 129, 0.3);
-            animation: float 3s ease-in-out infinite;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .combination-items {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 8px;
         }
 
-        .bubble img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
+        .combination-tag {
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .bubble:nth-child(2n) {
-            animation-delay: 0.5s;
-            background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
-            border-color: #ed8936;
-            color: #c05621;
-            box-shadow: 0 4px 6px rgba(237, 137, 54, 0.3);
+        .combination-tag .emoji {
+            font-size: 16px;
         }
 
-        .bubble:nth-child(3n) {
-            animation-delay: 1s;
-            background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
-            border-color: #3182ce;
-            color: #2c5282;
-            box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);
+        .combination-tag .count {
+            color: var(--accent);
+            font-weight: 700;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .empty-bubble {
-            color: #a0aec0;
+        .empty-combination {
+            color: var(--text-secondary);
             text-align: center;
             padding: 40px 0;
+            font-size: 14px;
         }
 
         /* 历史列表 */
@@ -274,95 +384,190 @@
             grid-column: 1 / -1;
         }
 
-        .history-section .card-title::before {
-            content: "📦";
-        }
-
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
         }
 
         .item-card {
-            background: #f7fafc;
-            border: 2px solid #e2e8f0;
+            background: var(--card);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 20px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            text-align: center;
+            box-shadow: var(--shadow);
         }
 
         .item-card:hover {
-            border-color: #667eea;
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-hover);
         }
 
-        .item-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            background: #edf2f7;
+        .item-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
         }
 
         .item-name {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 600;
             margin-bottom: 8px;
-            color: #2d3748;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
 
         .item-price {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            color: #e53e3e;
+            color: var(--accent);
             margin-bottom: 12px;
         }
 
         .item-price::before {
             content: "¥";
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0.7;
         }
 
-        .item-reason {
-            font-size: 14px;
-            color: #718096;
-            margin-bottom: 16px;
-            line-height: 1.5;
-            max-height: 60px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .priority-badge.high {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
+        }
+
+        .priority-badge.medium {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .priority-badge.low {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success);
         }
 
         .delete-item-btn {
             width: 100%;
             padding: 8px;
-            background: #fed7d7;
-            color: #c53030;
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .delete-item-btn:hover {
-            background: #fc8181;
+            background: var(--danger);
             color: white;
         }
 
         .empty-history {
             text-align: center;
             padding: 60px 0;
-            color: #a0aec0;
+            color: var(--text-secondary);
             grid-column: 1 / -1;
+            font-size: 14px;
+        }
+
+        /* 优先级确认弹窗 */
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .confirm-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-high-priority {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .modal-high-priority h4 {
+            color: var(--danger);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .high-priority-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.cancel {
+            background: var(--bg);
+            color: var(--text-primary);
+        }
+
+        .modal-btn.confirm {
+            background: var(--accent);
+            color: white;
         }
 
         /* 移动端适配 */
@@ -372,15 +577,51 @@
             }
 
             h1 {
-                font-size: 32px;
+                font-size: 24px;
             }
 
             .new-price-display {
                 font-size: 48px;
             }
 
+            header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .total-amount {
+                text-align: center;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .item-emoji {
+                font-size: 36px;
+            }
+
+            .item-name {
+                font-size: 13px;
+            }
+
+            .item-price {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
             .card {
-                padding: 24px;
+                padding: 20px;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -388,32 +629,55 @@
 <body>
     <div class="container">
         <header>
-            <h1>🛑 理智消费小助手</h1>
-            <p class="subtitle">买之前想一想，这笔钱能买多少你曾经想买的东西？</p>
+            <div class="header-left">
+                <h1>🛑 理智消费小助手</h1>
+                <p class="subtitle">买之前想一想，这笔钱能换多少你真正想要的东西</p>
+            </div>
+            <div class="total-amount">
+                <div class="total-label">愿望单总金额</div>
+                <div class="total-value" id="totalAmount">0.00</div>
+            </div>
         </header>
 
         <div class="main-grid">
             <!-- 左侧：添加商品 -->
             <div class="card">
-                <h2 class="card-title add">添加想买的东西</h2>
+                <h2 class="card-title">➕ 添加愿望</h2>
                 
                 <div class="form-group">
-                    <label for="itemImage">商品图片</label>
-                    <div class="image-upload" id="imageUpload">
-                        <input type="file" id="itemImage" accept="image/*">
-                        <div class="upload-text">📸 点击上传图片（可选）</div>
-                        <img id="previewImage" class="preview-image" alt="预览">
+                    <label>选择表情</label>
+                    <div class="emoji-selector" id="emojiSelector">
+                        <button class="emoji-option" data-emoji="📱">📱</button>
+                        <button class="emoji-option" data-emoji="💻">💻</button>
+                        <button class="emoji-option" data-emoji="🎧">🎧</button>
+                        <button class="emoji-option" data-emoji="⌚">⌚</button>
+                        <button class="emoji-option" data-emoji="👟">👟</button>
+                        <button class="emoji-option" data-emoji="👕">👕</button>
+                        <button class="emoji-option" data-emoji="🍔">🍔</button>
+                        <button class="emoji-option" data-emoji="☕">☕</button>
+                        <button class="emoji-option" data-emoji="✈️">✈️</button>
+                        <button class="emoji-option" data-emoji="🎮">🎮</button>
+                        <button class="emoji-option" data-emoji="📷">📷</button>
+                        <button class="emoji-option" data-emoji="💄">💄</button>
+                        <button class="emoji-option" data-emoji="💍">💍</button>
+                        <button class="emoji-option" data-emoji="🎁">🎁</button>
+                        <button class="emoji-option" data-emoji="📚">📚</button>
+                        <button class="emoji-option" data-emoji="🎨">🎨</button>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="itemName">商品名称</label>
-                    <input type="text" id="itemName" placeholder="比如：最新款 iPhone" required>
+                    <input type="text" id="itemName" placeholder="比如：新款iPhone" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="itemReason">为什么想买？</label>
-                    <textarea id="itemReason" placeholder="比如：旧手机卡了，想换个拍照好的"></textarea>
+                    <label>优先级</label>
+                    <div class="priority-selector">
+                        <div class="priority-option high" data-priority="high">真的很想买</div>
+                        <div class="priority-option medium" data-priority="medium">有更好</div>
+                        <div class="priority-option low" data-priority="low">没有也无所谓</div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -423,12 +687,12 @@
                     </div>
                 </div>
 
-                <button class="add-item-btn" id="addItemBtn">✅ 加入我的愿望清单</button>
+                <button class="add-item-btn" id="addItemBtn">添加到愿望单</button>
             </div>
 
             <!-- 右侧：对比提醒 -->
             <div class="card">
-                <h2 class="card-title compare">消费对比提醒</h2>
+                <h2 class="card-title">💸 消费对比</h2>
                 <div class="compare-section">
                     <div class="comparison-title">输入你现在想买的东西的价格</div>
                     <div class="price-input">
@@ -436,9 +700,11 @@
                     </div>
                     <div class="new-price-display" id="newPriceDisplay">0</div>
                     
+                    <button class="roll-btn" id="rollBtn">🎲 随机组合</button>
+                    
                     <div class="comparison-title">这笔钱你可以买：</div>
-                    <div class="bubbles-container" id="bubblesContainer">
-                        <div class="empty-bubble">先添加一些你曾经想买的东西吧~</div>
+                    <div class="combinations-container" id="combinationsContainer">
+                        <div class="empty-combination">先添加一些你想买的东西吧~</div>
                     </div>
                 </div>
             </div>
@@ -446,12 +712,26 @@
 
         <!-- 底部：历史商品列表 -->
         <div class="card history-section">
-            <h2 class="card-title">我的愿望清单</h2>
+            <h2 class="card-title">📦 我的愿望单</h2>
             <div class="items-grid" id="itemsGrid">
                 <div class="empty-history">
-                    <h3>还没有添加任何商品哦</h3>
-                    <p>添加你想买的东西，下次冲动消费时看看能换多少个它们~</p>
+                    还没有添加任何愿望哦，添加想买的东西开始理智消费吧~
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认弹窗 -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="modal-content">
+            <h3 class="modal-title">确认添加吗？</h3>
+            <div class="modal-high-priority" id="highPriorityList">
+                <h4>你还有这些「真的很想买」的东西还没买哦：</h4>
+                <div class="high-priority-list" id="highPriorityItems"></div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="cancelBtn">取消</button>
+                <button class="modal-btn confirm" id="confirmAddBtn">确认添加</button>
             </div>
         </div>
     </div>
@@ -459,146 +739,265 @@
     <script>
         // 本地存储
         let items = JSON.parse(localStorage.getItem('shoppingItems')) || [];
-        
-        const itemImageEl = document.getElementById('itemImage');
-        const previewImageEl = document.getElementById('previewImage');
-        const imageUploadEl = document.getElementById('imageUpload');
+        let selectedEmoji = '📱';
+        let selectedPriority = 'high';
+        let pendingItem = null;
+
+        const emojiOptions = document.querySelectorAll('.emoji-option');
+        const priorityOptions = document.querySelectorAll('.priority-option');
         const itemNameEl = document.getElementById('itemName');
-        const itemReasonEl = document.getElementById('itemReason');
         const itemPriceEl = document.getElementById('itemPrice');
         const addItemBtnEl = document.getElementById('addItemBtn');
         const newItemPriceEl = document.getElementById('newItemPrice');
         const newPriceDisplayEl = document.getElementById('newPriceDisplay');
-        const bubblesContainerEl = document.getElementById('bubblesContainer');
+        const rollBtnEl = document.getElementById('rollBtn');
+        const combinationsContainerEl = document.getElementById('combinationsContainer');
         const itemsGridEl = document.getElementById('itemsGrid');
+        const totalAmountEl = document.getElementById('totalAmount');
+        const confirmModalEl = document.getElementById('confirmModal');
+        const cancelBtnEl = document.getElementById('cancelBtn');
+        const confirmAddBtnEl = document.getElementById('confirmAddBtn');
+        const highPriorityItemsEl = document.getElementById('highPriorityItems');
 
-        // 图片上传预览
-        imageUploadEl.addEventListener('click', () => itemImageEl.click());
-        itemImageEl.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    previewImageEl.src = event.target.result;
-                    previewImageEl.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
+        // 表情选择
+        emojiOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                emojiOptions.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedEmoji = btn.dataset.emoji;
+            });
         });
+        emojiOptions[0].classList.add('selected');
+
+        // 优先级选择
+        priorityOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                priorityOptions.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedPriority = btn.dataset.priority;
+            });
+        });
+        priorityOptions[0].classList.add('selected');
+
+        // 更新总金额
+        function updateTotalAmount() {
+            const total = items.reduce((sum, item) => sum + parseFloat(item.price), 0);
+            totalAmountEl.textContent = total.toFixed(2);
+        }
+
+        // 生成随机组合
+        function generateCombinations(targetPrice) {
+            if (targetPrice <= 0 || items.length === 0) return [];
+
+            const validItems = items.filter(item => item.price <= targetPrice);
+            if (validItems.length === 0) return [];
+
+            const combinations = [];
+            const maxCombinations = 5;
+
+            // 组合1：单一商品最大数量
+            validItems.forEach(item => {
+                const count = Math.floor(targetPrice / item.price);
+                if (count >= 1) {
+                    combinations.push([{...item, count}]);
+                }
+            });
+
+            // 组合2：随机混合2种商品
+            for (let i = 0; i < 3; i++) {
+                const shuffled = [...validItems].sort(() => Math.random() - 0.5);
+                const item1 = shuffled[0];
+                const item2 = shuffled[1] || item1;
+                
+                let remaining = targetPrice;
+                const count1 = Math.floor(Math.random() * (Math.floor(remaining / item1.price) + 1));
+                remaining -= count1 * item1.price;
+                const count2 = Math.floor(remaining / item2.price);
+                
+                if (count1 >=1 && count2 >=1) {
+                    combinations.push([
+                        {...item1, count: count1},
+                        {...item2, count: count2}
+                    ]);
+                }
+            }
+
+            // 组合3：随机多种商品
+            for (let i = 0; i < 2; i++) {
+                let remaining = targetPrice;
+                const combo = [];
+                const shuffled = [...validItems].sort(() => Math.random() - 0.5);
+                
+                for (const item of shuffled) {
+                    if (remaining <= 0) break;
+                    const maxCount = Math.floor(remaining / item.price);
+                    if (maxCount >= 1) {
+                        const count = Math.floor(Math.random() * maxCount) + 1;
+                        combo.push({...item, count});
+                        remaining -= count * item.price;
+                    }
+                }
+                
+                if (combo.length >= 2) {
+                    combinations.push(combo);
+                }
+            }
+
+            // 去重+排序
+            const uniqueCombos = combinations
+                .filter((combo, index, self) => 
+                    index === self.findIndex(c => 
+                        JSON.stringify(c.map(i => ({id: i.id, count: i.count}))) === 
+                        JSON.stringify(combo.map(i => ({id: i.id, count: i.count})))
+                    )
+                )
+                .slice(0, maxCombinations);
+
+            return uniqueCombos;
+        }
+
+        // 渲染组合
+        function renderCombinations() {
+            const targetPrice = parseFloat(newItemPriceEl.value) || 0;
+            newPriceDisplayEl.textContent = targetPrice.toFixed(2);
+
+            if (targetPrice <= 0 || items.length === 0) {
+                combinationsContainerEl.innerHTML = `<div class="empty-combination">${items.length === 0 ? '先添加一些你想买的东西吧~' : '输入价格看看能换多少个之前想买的东西~'}</div>`;
+                return;
+            }
+
+            const combinations = generateCombinations(targetPrice);
+            
+            if (combinations.length === 0) {
+                combinationsContainerEl.innerHTML = `<div class="empty-combination">这个价格不够买任何一个你之前想买的东西哦~</div>`;
+                return;
+            }
+
+            combinationsContainerEl.innerHTML = combinations.map((combo, index) => {
+                const totalCost = combo.reduce((sum, item) => sum + item.count * item.price, 0);
+                return `
+                    <div class="combination-item">
+                        <div class="combination-header">组合 ${index+1} · 合计 ¥${totalCost.toFixed(2)}</div>
+                        <div class="combination-items">
+                            ${combo.map(item => `
+                                <div class="combination-tag">
+                                    <span class="emoji">${item.emoji}</span>
+                                    <span class="count">${item.count}</span>
+                                    <span>个 ${item.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
 
         // 添加商品
-        function addItem() {
+        function showConfirmModal() {
             const name = itemNameEl.value.trim();
-            const reason = itemReasonEl.value.trim();
             const price = parseFloat(itemPriceEl.value.trim());
-            const image = previewImageEl.src || '';
 
             if (!name || isNaN(price) || price <= 0) {
                 alert('请填写正确的商品名称和价格');
                 return;
             }
 
-            const newItem = {
+            pendingItem = {
                 id: Date.now(),
                 name,
-                reason,
                 price,
-                image,
+                emoji: selectedEmoji,
+                priority: selectedPriority,
                 createdAt: new Date().toISOString()
             };
 
-            items.unshift(newItem);
+            // 显示高优先级商品
+            const highPriorityItems = items.filter(item => item.priority === 'high');
+            if (highPriorityItems.length > 0) {
+                highPriorityItemsEl.innerHTML = highPriorityItems.map(item => 
+                    `<div>• ${item.emoji} ${item.name} (¥${item.price.toFixed(2)})</div>`
+                ).join('');
+                document.getElementById('highPriorityList').style.display = 'block';
+            } else {
+                document.getElementById('highPriorityList').style.display = 'none';
+            }
+
+            confirmModalEl.classList.add('show');
+        }
+
+        function addItem() {
+            if (!pendingItem) return;
+
+            items.unshift(pendingItem);
             localStorage.setItem('shoppingItems', JSON.stringify(items));
             
             // 清空表单
             itemNameEl.value = '';
-            itemReasonEl.value = '';
             itemPriceEl.value = '';
-            previewImageEl.src = '';
-            previewImageEl.style.display = 'none';
+            pendingItem = null;
+            confirmModalEl.classList.remove('show');
 
             renderItems();
-            updateComparison();
+            updateTotalAmount();
+            renderCombinations();
         }
 
         // 删除商品
         function deleteItem(id) {
-            if (confirm('确定要删除这个商品吗？')) {
+            if (confirm('确定要删除这个愿望吗？')) {
                 items = items.filter(item => item.id !== id);
                 localStorage.setItem('shoppingItems', JSON.stringify(items));
                 renderItems();
-                updateComparison();
+                updateTotalAmount();
+                renderCombinations();
             }
         }
 
-        // 渲染历史商品列表
+        // 渲染商品列表
         function renderItems() {
             if (items.length === 0) {
                 itemsGridEl.innerHTML = `
                     <div class="empty-history">
-                        <h3>还没有添加任何商品哦</h3>
-                        <p>添加你想买的东西，下次冲动消费时看看能换多少个它们~</p>
+                        还没有添加任何愿望哦，添加想买的东西开始理智消费吧~
                     </div>
                 `;
                 return;
             }
 
-            itemsGridEl.innerHTML = items.map(item => `
+            // 按优先级排序：高优先级在前
+            const sortedItems = [...items].sort((a, b) => {
+                const priorityOrder = { high: 0, medium: 1, low: 2 };
+                return priorityOrder[a.priority] - priorityOrder[b.priority];
+            });
+
+            itemsGridEl.innerHTML = sortedItems.map(item => `
                 <div class="item-card">
-                    ${item.image ? `<img src="${item.image}" alt="${item.name}" class="item-image">` : `<div class="item-image"></div>`}
+                    <div class="item-emoji">${item.emoji}</div>
+                    <div class="priority-badge ${item.priority}">
+                        ${item.priority === 'high' ? '真的很想买' : item.priority === 'medium' ? '有更好' : '没有也无所谓'}
+                    </div>
                     <div class="item-name">${item.name}</div>
                     <div class="item-price">${item.price.toFixed(2)}</div>
-                    ${item.reason ? `<div class="item-reason">💡 ${item.reason}</div>` : ''}
                     <button class="delete-item-btn" onclick="deleteItem(${item.id})">删除</button>
                 </div>
             `).join('');
         }
 
-        // 更新对比气泡
-        function updateComparison() {
-            const newPrice = parseFloat(newItemPriceEl.value) || 0;
-            newPriceDisplayEl.textContent = newPrice.toFixed(2);
-
-            if (newPrice <= 0 || items.length === 0) {
-                bubblesContainerEl.innerHTML = `<div class="empty-bubble">${items.length === 0 ? '先添加一些你曾经想买的东西吧~' : '输入价格看看能买多少个之前想买的东西~'}</div>`;
-                return;
-            }
-
-            let bubblesHTML = '';
-            items.forEach(item => {
-                if (item.price <= 0) return;
-                const count = Math.floor(newPrice / item.price);
-                if (count >= 1) {
-                    bubblesHTML += `
-                        <div class="bubble">
-                            ${item.image ? `<img src="${item.image}" alt="${item.name}">` : ''}
-                            <span>${count} 个 ${item.name}</span>
-                        </div>
-                    `;
-                }
-            });
-
-            if (!bubblesHTML) {
-                bubblesHTML = `<div class="empty-bubble">这个价格不够买任何一个你之前想买的东西哦~</div>`;
-            }
-
-            bubblesContainerEl.innerHTML = bubblesHTML;
-        }
-
         // 事件监听
-        addItemBtnEl.addEventListener('click', addItem);
-        newItemPriceEl.addEventListener('input', updateComparison);
-
-        // 回车添加
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && (e.target.id === 'itemName' || e.target.id === 'itemPrice' || e.target.id === 'itemReason')) {
-                addItem();
-            }
+        addItemBtnEl.addEventListener('click', showConfirmModal);
+        cancelBtnEl.addEventListener('click', () => {
+            confirmModalEl.classList.remove('show');
+            pendingItem = null;
         });
+        confirmAddBtnEl.addEventListener('click', addItem);
+        newItemPriceEl.addEventListener('input', renderCombinations);
+        rollBtnEl.addEventListener('click', renderCombinations);
 
         // 初始化渲染
         renderItems();
-        updateComparison();
+        updateTotalAmount();
+        renderCombinations();
     </script>
 </body>
 </html>
+
