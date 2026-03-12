@@ -25,6 +25,16 @@
             --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
 
+        [data-theme="dark"] {
+            --bg: #1c1c1e;
+            --card: #2c2c2e;
+            --text-primary: #f2f2f7;
+            --text-secondary: #8e8e93;
+            --border: #38383a;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg);
@@ -33,6 +43,7 @@
             line-height: 1.47;
             padding: 20px;
             font-weight: 400;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -61,6 +72,12 @@
             color: var(--text-secondary);
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .total-amount {
             text-align: right;
         }
@@ -82,6 +99,87 @@
             font-size: 18px;
             opacity: 0.7;
             margin-right: 2px;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text-primary);
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .stat-value.success {
+            color: var(--success);
+        }
+
+        .stat-value.warning {
+            color: var(--warning);
+        }
+
+        .stat-value.danger {
+            color: var(--danger);
         }
 
         .main-grid {
@@ -139,6 +237,7 @@
             border-radius: 12px;
             font-size: 16px;
             background: var(--bg);
+            color: var(--text-primary);
             transition: all 0.2s ease;
             font-family: inherit;
             appearance: none;
@@ -148,7 +247,7 @@
         .form-group select:focus {
             outline: none;
             border-color: var(--accent);
-            background: white;
+            background: var(--card);
             box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
         }
 
@@ -168,7 +267,7 @@
             width: 36px;
             height: 36px;
             border: none;
-            background: white;
+            background: var(--card);
             border-radius: 8px;
             font-size: 18px;
             cursor: pointer;
@@ -182,6 +281,40 @@
         .emoji-option.selected {
             background: var(--accent);
             transform: scale(1.1);
+        }
+
+        /* 分类选择 */
+        .category-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .category-option {
+            padding: 10px 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .category-option.selected {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .category-option .emoji {
+            font-size: 16px;
         }
 
         /* 优先级选择 */
@@ -258,6 +391,21 @@
             color: var(--text-primary);
         }
 
+        .cooling-notice {
+            background: rgba(255, 149, 0, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--warning);
+            display: none;
+        }
+
+        .cooling-notice.show {
+            display: block;
+        }
+
         .add-item-btn {
             width: 100%;
             padding: 14px;
@@ -279,6 +427,38 @@
 
         .add-item-btn:active {
             transform: translateY(0);
+        }
+
+        .add-item-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 筛选区域 */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-primary);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
         }
 
         /* 对比区域 */
@@ -327,7 +507,7 @@
         }
 
         .combinations-container {
-            max-height: 400px;
+            max-height: 380px;
             overflow-y: auto;
             padding: 8px;
         }
@@ -339,6 +519,7 @@
             padding: 16px;
             margin-bottom: 12px;
             animation: fadeIn 0.3s ease;
+            text-align: left;
         }
 
         @keyframes fadeIn {
@@ -360,7 +541,7 @@
         }
 
         .combination-tag {
-            background: white;
+            background: var(--card);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 13px;
@@ -418,30 +599,20 @@
             box-shadow: var(--shadow-hover);
         }
 
+        .item-card.purchased {
+            opacity: 0.6;
+            border-color: var(--success);
+        }
+
         .item-emoji {
-            font-size: 48px;
-            margin-bottom: 12px;
+            font-size: 40px;
+            margin-bottom: 10px;
         }
 
-        .item-name {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
-
-        .item-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
-
-        .item-price::before {
-            content: "¥";
-            font-size: 14px;
-            opacity: 0.7;
+        .category-badge {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
         }
 
         .priority-badge {
@@ -451,7 +622,7 @@
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .priority-badge.high {
@@ -469,20 +640,64 @@
             color: var(--success);
         }
 
-        .delete-item-btn {
+        .item-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            line-height: 1.3;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .item-price::before {
+            content: "¥";
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 6px;
             width: 100%;
-            padding: 8px;
-            background: rgba(255, 59, 48, 0.1);
-            color: var(--danger);
+        }
+
+        .action-small-btn {
+            flex: 1;
+            padding: 6px 8px;
             border: none;
-            border-radius: 10px;
-            font-size: 13px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .delete-item-btn:hover {
+        .purchase-btn {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success);
+        }
+
+        .purchase-btn:hover {
+            background: var(--success);
+            color: white;
+        }
+
+        .delete-btn {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--danger);
+        }
+
+        .delete-btn:hover {
             background: var(--danger);
             color: white;
         }
@@ -605,6 +820,11 @@
                 padding-bottom: 12px;
             }
 
+            .header-right {
+                flex-direction: column;
+                width: 100%;
+            }
+
             .total-amount {
                 text-align: center;
             }
@@ -620,10 +840,6 @@
 
             .item-name {
                 font-size: 13px;
-                min-height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
 
             .item-price {
@@ -633,6 +849,10 @@
             .card {
                 padding: 24px 20px;
             }
+
+            .category-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 600px) {
@@ -641,10 +861,14 @@
             }
 
             .card {
-                padding: 20px;
+                padding: 20px 16px;
             }
 
             .items-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-bar {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -657,11 +881,37 @@
                 <h1>🛑 理智消费小助手</h1>
                 <p class="subtitle">买之前想一想，这笔钱能换多少你真正想要的东西</p>
             </div>
-            <div class="total-amount">
-                <div class="total-label">愿望单总金额</div>
-                <div class="total-value" id="totalAmount">0.00</div>
+            <div class="header-right">
+                <div class="total-amount">
+                    <div class="total-label">愿望单总金额</div>
+                    <div class="total-value" id="totalAmount">0.00</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" id="exportBtn">导出</button>
+                    <button class="action-btn" id="importBtn">导入</button>
+                    <button class="theme-toggle" id="themeToggle">🌞</button>
+                </div>
             </div>
         </header>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-label">已实现</div>
+                <div class="stat-value success" id="purchasedCount">0/0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">已花费</div>
+                <div class="stat-value warning" id="totalSpent">¥0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">已省钱</div>
+                <div class="stat-value success" id="savedMoney">¥0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">月预算剩余</div>
+                <div class="stat-value danger" id="budgetRemaining">¥0.00</div>
+            </div>
+        </div>
 
         <div class="main-grid">
             <!-- 左侧：添加商品 -->
@@ -691,6 +941,44 @@
                 </div>
 
                 <div class="form-group">
+                    <label>分类</label>
+                    <div class="category-selector" id="categorySelector">
+                        <div class="category-option selected" data-category="digital" data-emoji="📱">
+                            <span class="emoji">📱</span>
+                            <span>数码</span>
+                        </div>
+                        <div class="category-option" data-category="clothing" data-emoji="👕">
+                            <span class="emoji">👕</span>
+                            <span>服饰</span>
+                        </div>
+                        <div class="category-option" data-category="food" data-emoji="🍔">
+                            <span class="emoji">🍔</span>
+                            <span>美食</span>
+                        </div>
+                        <div class="category-option" data-category="travel" data-emoji="✈️">
+                            <span class="emoji">✈️</span>
+                            <span>旅行</span>
+                        </div>
+                        <div class="category-option" data-category="beauty" data-emoji="💄">
+                            <span class="emoji">💄</span>
+                            <span>美妆</span>
+                        </div>
+                        <div class="category-option" data-category="game" data-emoji="🎮">
+                            <span class="emoji">🎮</span>
+                            <span>游戏</span>
+                        </div>
+                        <div class="category-option" data-category="book" data-emoji="📚">
+                            <span class="emoji">📚</span>
+                            <span>书籍</span>
+                        </div>
+                        <div class="category-option" data-category="other" data-emoji="🎁">
+                            <span class="emoji">🎁</span>
+                            <span>其他</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="itemName">商品名称</label>
                     <input type="text" id="itemName" placeholder="比如：新款iPhone" required>
                 </div>
@@ -698,7 +986,7 @@
                 <div class="form-group">
                     <label>优先级</label>
                     <div class="priority-selector">
-                        <div class="priority-option high" data-priority="high">真的很想买</div>
+                        <div class="priority-option high selected" data-priority="high">真的很想买</div>
                         <div class="priority-option medium" data-priority="medium">有更好</div>
                         <div class="priority-option low" data-priority="low">没有也无所谓</div>
                     </div>
@@ -709,6 +997,10 @@
                     <div class="price-input">
                         <input type="number" id="itemPrice" placeholder="0.00" min="0" step="0.01" required>
                     </div>
+                </div>
+
+                <div class="cooling-notice" id="coolingNotice">
+                    ⚠️ 商品价格超过1000元，已开启24小时冷静期，冷静期结束后才能添加到愿望单
                 </div>
 
                 <button class="add-item-btn" id="addItemBtn">添加到愿望单</button>
@@ -737,6 +1029,16 @@
         <!-- 底部：历史商品列表 -->
         <div class="card history-section">
             <h2 class="card-title">📦 我的愿望单</h2>
+            <div class="filter-bar" id="filterBar">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="pending">待购买</button>
+                <button class="filter-btn" data-filter="purchased">已购买</button>
+                <button class="filter-btn" data-filter="high">高优先级</button>
+                <button class="filter-btn" data-filter="digital">数码</button>
+                <button class="filter-btn" data-filter="clothing">服饰</button>
+                <button class="filter-btn" data-filter="food">美食</button>
+                <button class="filter-btn" data-filter="travel">旅行</button>
+            </div>
             <div class="items-grid" id="itemsGrid">
                 <div class="empty-history">
                     还没有添加任何愿望哦，添加想买的东西开始理智消费吧~
@@ -760,28 +1062,110 @@
         </div>
     </div>
 
+    <!-- 隐藏的导入文件输入框 -->
+    <input type="file" id="importFile" accept=".json" style="display: none;">
+
     <script>
         // 本地存储
         let items = JSON.parse(localStorage.getItem('shoppingItems')) || [];
+        let settings = JSON.parse(localStorage.getItem('shoppingSettings')) || {
+            theme: 'light',
+            monthlyBudget: 5000,
+            coolingThreshold: 1000,
+            savedMoney: 0
+        };
         let selectedEmoji = '📱';
+        let selectedCategory = 'digital';
         let selectedPriority = 'high';
+        let currentFilter = 'all';
         let pendingItem = null;
 
         const emojiOptions = document.querySelectorAll('.emoji-option');
+        const categoryOptions = document.querySelectorAll('.category-option');
         const priorityOptions = document.querySelectorAll('.priority-option');
+        const filterBtns = document.querySelectorAll('.filter-btn');
         const itemNameEl = document.getElementById('itemName');
         const itemPriceEl = document.getElementById('itemPrice');
         const addItemBtnEl = document.getElementById('addItemBtn');
+        const coolingNoticeEl = document.getElementById('coolingNotice');
         const newItemPriceEl = document.getElementById('newItemPrice');
         const newPriceDisplayEl = document.getElementById('newPriceDisplay');
         const rollBtnEl = document.getElementById('rollBtn');
         const combinationsContainerEl = document.getElementById('combinationsContainer');
         const itemsGridEl = document.getElementById('itemsGrid');
         const totalAmountEl = document.getElementById('totalAmount');
+        const purchasedCountEl = document.getElementById('purchasedCount');
+        const totalSpentEl = document.getElementById('totalSpent');
+        const savedMoneyEl = document.getElementById('savedMoney');
+        const budgetRemainingEl = document.getElementById('budgetRemaining');
         const confirmModalEl = document.getElementById('confirmModal');
         const cancelBtnEl = document.getElementById('cancelBtn');
         const confirmAddBtnEl = document.getElementById('confirmAddBtn');
         const highPriorityItemsEl = document.getElementById('highPriorityItems');
+        const themeToggleEl = document.getElementById('themeToggle');
+        const exportBtnEl = document.getElementById('exportBtn');
+        const importBtnEl = document.getElementById('importBtn');
+        const importFileEl = document.getElementById('importFile');
+
+        // 初始化主题
+        if (settings.theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggleEl.textContent = '🌙';
+        }
+
+        // 主题切换
+        themeToggleEl.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                settings.theme = 'light';
+                themeToggleEl.textContent = '🌞';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                settings.theme = 'dark';
+                themeToggleEl.textContent = '🌙';
+            }
+            localStorage.setItem('shoppingSettings', JSON.stringify(settings));
+        });
+
+        // 导出数据
+        exportBtnEl.addEventListener('click', () => {
+            const data = {
+                items,
+                settings,
+                exportTime: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `shopping-wishlist-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // 导入数据
+        importBtnEl.addEventListener('click', () => importFileEl.click());
+        importFileEl.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    if (confirm('导入会覆盖当前所有数据，确定要继续吗？')) {
+                        items = data.items || [];
+                        settings = data.settings || settings;
+                        localStorage.setItem('shoppingItems', JSON.stringify(items));
+                        localStorage.setItem('shoppingSettings', JSON.stringify(settings));
+                        location.reload();
+                    }
+                } catch (e) {
+                    alert('导入失败，文件格式不正确');
+                }
+            };
+            reader.readAsText(file);
+        });
 
         // 表情选择
         emojiOptions.forEach(btn => {
@@ -793,6 +1177,16 @@
         });
         emojiOptions[0].classList.add('selected');
 
+        // 分类选择
+        categoryOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryOptions.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedCategory = btn.dataset.category;
+            });
+        });
+        categoryOptions[0].classList.add('selected');
+
         // 优先级选择
         priorityOptions.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -803,17 +1197,55 @@
         });
         priorityOptions[0].classList.add('selected');
 
-        // 更新总金额
-        function updateTotalAmount() {
+        // 筛选按钮
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderItems();
+            });
+        });
+
+        // 价格输入监听，显示冷却期
+        itemPriceEl.addEventListener('input', () => {
+            const price = parseFloat(itemPriceEl.value) || 0;
+            if (price >= settings.coolingThreshold) {
+                coolingNoticeEl.classList.add('show');
+                addItemBtnEl.disabled = true;
+                addItemBtnEl.textContent = `24小时冷静期后可添加`;
+            } else {
+                coolingNoticeEl.classList.remove('show');
+                addItemBtnEl.disabled = false;
+                addItemBtnEl.textContent = `添加到愿望单`;
+            }
+        });
+
+        // 更新统计数据
+        function updateStats() {
             const total = items.reduce((sum, item) => sum + parseFloat(item.price), 0);
+            const purchasedItems = items.filter(item => item.purchased);
+            const purchasedCount = purchasedItems.length;
+            const totalSpent = purchasedItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+            const monthSpent = purchasedItems.filter(item => {
+                const itemDate = new Date(item.purchasedAt || item.createdAt);
+                const now = new Date();
+                return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+            }).reduce((sum, item) => sum + parseFloat(item.price), 0);
+            const budgetRemaining = settings.monthlyBudget - monthSpent;
+
             totalAmountEl.textContent = total.toFixed(2);
+            purchasedCountEl.textContent = `${purchasedCount}/${items.length}`;
+            totalSpentEl.textContent = `¥${totalSpent.toFixed(2)}`;
+            savedMoneyEl.textContent = `¥${settings.savedMoney.toFixed(2)}`;
+            budgetRemainingEl.textContent = `¥${Math.max(0, budgetRemaining).toFixed(2)}`;
         }
 
         // 生成随机组合
         function generateCombinations(targetPrice) {
             if (targetPrice <= 0 || items.length === 0) return [];
 
-            const validItems = items.filter(item => item.price <= targetPrice);
+            const validItems = items.filter(item => item.price <= targetPrice && !item.purchased);
             if (validItems.length === 0) return [];
 
             const combinations = [];
@@ -926,17 +1358,24 @@
                 return;
             }
 
+            if (price >= settings.coolingThreshold) {
+                alert('商品价格超过1000元，已开启24小时冷静期，请明天再添加~');
+                return;
+            }
+
             pendingItem = {
                 id: Date.now(),
                 name,
                 price,
                 emoji: selectedEmoji,
+                category: selectedCategory,
                 priority: selectedPriority,
+                purchased: false,
                 createdAt: new Date().toISOString()
             };
 
             // 显示高优先级商品
-            const highPriorityItems = items.filter(item => item.priority === 'high');
+            const highPriorityItems = items.filter(item => item.priority === 'high' && !item.purchased);
             if (highPriorityItems.length > 0) {
                 highPriorityItemsEl.innerHTML = highPriorityItems.map(item => 
                     `<div>• ${item.emoji} ${item.name} (¥${item.price.toFixed(2)})</div>`
@@ -958,51 +1397,104 @@
             // 清空表单
             itemNameEl.value = '';
             itemPriceEl.value = '';
+            coolingNoticeEl.classList.remove('show');
+            addItemBtnEl.disabled = false;
+            addItemBtnEl.textContent = `添加到愿望单`;
             pendingItem = null;
             confirmModalEl.classList.remove('show');
 
             renderItems();
-            updateTotalAmount();
+            updateStats();
+            renderCombinations();
+        }
+
+        // 标记为已购买
+        function markAsPurchased(id) {
+            const item = items.find(item => item.id === id);
+            if (!item) return;
+            
+            if (item.purchased) {
+                item.purchased = false;
+                delete item.purchasedAt;
+            } else {
+                item.purchased = true;
+                item.purchasedAt = new Date().toISOString();
+            }
+            
+            localStorage.setItem('shoppingItems', JSON.stringify(items));
+            renderItems();
+            updateStats();
             renderCombinations();
         }
 
         // 删除商品
         function deleteItem(id) {
             if (confirm('确定要删除这个愿望吗？')) {
+                const item = items.find(item => item.id === id);
+                // 如果没买就算作省钱了
+                if (!item.purchased) {
+                    settings.savedMoney += parseFloat(item.price);
+                    localStorage.setItem('shoppingSettings', JSON.stringify(settings));
+                }
                 items = items.filter(item => item.id !== id);
                 localStorage.setItem('shoppingItems', JSON.stringify(items));
                 renderItems();
-                updateTotalAmount();
+                updateStats();
                 renderCombinations();
             }
         }
 
         // 渲染商品列表
         function renderItems() {
-            if (items.length === 0) {
+            let filteredList = items;
+            
+            // 应用筛选
+            if (currentFilter === 'pending') {
+                filteredList = items.filter(item => !item.purchased);
+            } else if (currentFilter === 'purchased') {
+                filteredList = items.filter(item => item.purchased);
+            } else if (currentFilter === 'high') {
+                filteredList = items.filter(item => item.priority === 'high' && !item.purchased);
+            } else if (['digital', 'clothing', 'food', 'travel', 'beauty', 'game', 'book', 'other'].includes(currentFilter)) {
+                filteredList = items.filter(item => item.category === currentFilter && !item.purchased);
+            }
+
+            if (filteredList.length === 0) {
                 itemsGridEl.innerHTML = `
                     <div class="empty-history">
-                        还没有添加任何愿望哦，添加想买的东西开始理智消费吧~
+                        当前筛选下没有愿望哦~
                     </div>
                 `;
                 return;
             }
 
-            // 按优先级排序：高优先级在前
-            const sortedItems = [...items].sort((a, b) => {
+            // 按优先级排序：高优先级在前，未购买在前
+            const sortedItems = [...filteredList].sort((a, b) => {
+                if (a.purchased !== b.purchased) return a.purchased ? 1 : -1;
                 const priorityOrder = { high: 0, medium: 1, low: 2 };
                 return priorityOrder[a.priority] - priorityOrder[b.priority];
             });
 
+            const categoryNames = {
+                digital: '数码', clothing: '服饰', food: '美食', travel: '旅行',
+                beauty: '美妆', game: '游戏', book: '书籍', other: '其他'
+            };
+
             itemsGridEl.innerHTML = sortedItems.map(item => `
-                <div class="item-card">
+                <div class="item-card ${item.purchased ? 'purchased' : ''}">
                     <div class="item-emoji">${item.emoji}</div>
+                    <div class="category-badge">${categoryNames[item.category] || '其他'}</div>
                     <div class="priority-badge ${item.priority}">
                         ${item.priority === 'high' ? '真的很想买' : item.priority === 'medium' ? '有更好' : '没有也无所谓'}
                     </div>
                     <div class="item-name">${item.name}</div>
                     <div class="item-price">${item.price.toFixed(2)}</div>
-                    <button class="delete-item-btn" onclick="deleteItem(${item.id})">删除</button>
+                    <div class="item-actions">
+                        <button class="action-small-btn purchase-btn" onclick="markAsPurchased(${item.id})">
+                            ${item.purchased ? '取消购买' : '已买'}
+                        </button>
+                        <button class="action-small-btn delete-btn" onclick="deleteItem(${item.id})">删除</button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -1019,9 +1511,8 @@
 
         // 初始化渲染
         renderItems();
-        updateTotalAmount();
+        updateStats();
         renderCombinations();
     </script>
 </body>
 </html>
-
